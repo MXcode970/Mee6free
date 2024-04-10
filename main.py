@@ -34,4 +34,4 @@ async def on_member_join(member):
 
 # Запуск бота
 
-client.run('MTIyNzU5NzAwMTU4ODM0NjkwMQ.GADr_C.azjXuBu50f3kGOG1tKy8BLbUP5DcTtBNz5NHg8')
+client.run('')
