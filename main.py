@@ -1,9 +1,12 @@
 import discord
+from discord.ext import commands
 from welcome import create_welcome_image
 import requests 
 import shutil
+import os
 
-client = discord.Client(intents=discord.Intents.all())
+bot = commands.Bot(command_prefix='/',intents=discord.Intents.all() )
+
 
 async def send_welcome_message(member):
 
@@ -29,15 +32,25 @@ async def send_welcome_message(member):
     else:
         print("Error: Welcome channel not found.")
 
+    os.remove(f"avatar_{member.display_name}.png")
 
-@client.event
+@bot.event
 async def on_member_join(member):
     await send_welcome_message(member)
 
+@bot.event
+async def on_ready():
+    await bot.change_presence(activity=discord.CustomActivity(name="github.com/MXcode970/Mee6free"))
 
-@client.event
-async def on_member_join(member):
-    await send_welcome_message(member)
+@bot.command()
+async def st(ctx, *, message: str):
+    #замените айдишник на айди админа
+    if ctx.author.id == 728600636060467200:
+        await bot.change_presence(activity=discord.Game(name=message), type=3)
+        await ctx.send(f"Activity status set to '{message}'")
+    else:
+        await ctx.send("Sorry, you do not have permission to use this command.")
+
 
 
 
