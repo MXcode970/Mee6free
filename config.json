@@ -6,7 +6,10 @@
         "member_count": "Участник #",
         "status_updated": "Вернул стандартный статус",
         "status_custom_updated": "Изменил статус",
-        "bot_disabled": "Выключил бота :>"
+        "bot_disabled": "Выключил бота :>",
+        "options_in_polls": "Дайте хотя-бы два варианта(через запятую).",
+        "type": "Используйте horizontal или vertical",
+        "no_rights": "Нет прав"
     },
 
     "bot_prints": {
@@ -21,13 +24,15 @@
 
     "commands_description": {
         "status": "Поставить статус",
-        "stop": "Выключить бота"
+        "stop": "Выключить бота",
+        "poll": "Голосование"
     },
     "default_status": "github.com/MXcode970/Mee6free",
     "disabeld_status": "Выключен",
+    "welcome_channel_name": "приветствие",
 
     "welcome_image_template": {
-        "background_image": "assets/black.jpg",
+        "background_image": "assets/861.jpg",
         "font_path": "assets/NotoSans-Regular.ttf"
     }
 }
