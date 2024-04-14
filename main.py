@@ -5,7 +5,7 @@ import requests
 import shutil
 import os
 import json
-
+import string
 
 with open('config.json', 'r', encoding='utf-8') as file:
     config = json.load(file)
@@ -37,7 +37,7 @@ async def send_welcome_message(member):
         config['welcome_image_template']['font_path']
     )
 
-    channel = discord.utils.get(member.guild.channels, name="приветствие")
+    channel = discord.utils.get(member.guild.channels, name=config["welcome_channel_name"])
     if channel:
         with open("res.png", "rb") as image_file:
             picture = discord.File(image_file)
@@ -73,6 +73,7 @@ async def status(ctx: discord.Integration, status: str):
             await bot.change_presence(activity=discord.CustomActivity(name=status))
             await ctx.response.send_message(config['bot_responses']["status_custom_updated"])
     else:
+        await ctx.response.send_message(config["bot_responses"]["no_rights"], ephemeral=True)
         print(config["bot_prints"]["no_rights_print"], ctx.user.display_name)
 
 @bot.tree.command(name="stop", description=config['commands_description']['stop'])
@@ -83,9 +84,40 @@ async def stop(ctx: discord.Integration):
         print(config["bot_prints"]["bot_disabled_print"])
         await ctx.response.send_message(config["bot_responses"]["bot_disabled"])
         await bot.change_presence(activity=discord.CustomActivity(name=config["disabeld_status"]), status=discord.Status.idle)
+    else:
+        await ctx.response.send_message(config["bot_responses"]["no_rights"], ephemeral=True)
+
+
+@bot.tree.command(name='poll', description=config['commands_description']['poll'])
+async def poll(interaction: discord.Interaction, options: str, type: str):
+
+    options_list = options.split(',')
+    if len(options_list) < 2:
+        await interaction.response.send_message(config["bot_responses"]["options_in_polls"], ephemeral=True)
+        return
+    
+    allowed = ["horizontal", "vertical"]
+    if not type in allowed:
+        await interaction.response.send_message(config["bot_responses"]["type"], ephemeral=True)
+        return
+    
+    if type == "vertical":
+        sep = "\n"
+    else:
+        sep = "    "
+        
+    
+    description = sep.join(f":regional_indicator_{string.ascii_lowercase[i]}: {option.strip()}" 
+                            for i, option in enumerate(options_list))
+    embed = discord.Embed(title="Poll", description=description, color=0x00ff00)
+    await interaction.response.send_message(embed=embed, ephemeral=False)
 
 
 
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send("Ошибка.")
 
         
 @bot.event
