@@ -1,17 +1,35 @@
 import discord
 from discord.ext import commands
+import g4f.Provider
 from welcome import create_welcome_image
 import requests 
 import shutil
 import os
 import json
 import string
+import g4f
+
 
 with open('config.json', 'r', encoding='utf-8') as file:
     config = json.load(file)
 
 bot = commands.Bot(command_prefix='/',intents=discord.Intents.all() )
 disabled = False
+
+
+
+def gbt(prmt):
+ 
+    response = g4f.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        provider=g4f.Provider.FlowGpt,
+        messages=[{"role": "user", "content": prmt}],
+        
+    )
+
+    return response
+
+
 
 
 async def send_welcome_message(member):
@@ -113,6 +131,29 @@ async def poll(interaction: discord.Interaction, options: str, type: str):
     await interaction.response.send_message(embed=embed, ephemeral=False)
 
 
+@bot.event
+async def on_message(message):
+    if message.author == bot.user:
+        return
+
+    # Проверяем, является ли сообщение личным сообщением (DM)
+    if isinstance(message.channel, discord.DMChannel):
+        q = discord.Embed(description=f"Nope", color=0xFF4500)
+        await message.channel.send(embed=q)
+
+    if message.content.startswith(config["Prefix_to_AI"]):
+
+        
+        text_after_prefix = message.content[len(config["Prefix_to_AI"]):].strip()
+        print(config["bot_prints"]["new_AI"], text_after_prefix)
+        if config["Use_Emded_to_AI"] == "True":
+            embed = discord.Embed(title=f'** Вопрос: {text_after_prefix}**', description=gbt(text_after_prefix), color=0x40E0D0)
+            await message.channel.send(embed=embed)
+        else:
+            await message.channel.send(gbt(text_after_prefix))
+
+
+
 
 @bot.event
 async def on_command_error(ctx, error):
@@ -122,7 +163,7 @@ async def on_command_error(ctx, error):
         
 @bot.event
 async def on_ready():
-    print("[MEE7] Login!")
+    print(config["bot_prints"]["bot_login_print"])
     await bot.tree.sync()
     await bot.change_presence(activity=discord.CustomActivity(name=config["default_status"]))
 
