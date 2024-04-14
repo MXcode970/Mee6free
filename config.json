@@ -1,38 +1,41 @@
 {
-    "ADMIN_ID": 728600636060467200,
-    
-    "bot_responses": {
-        "welcome_message": "зашёл на сервер!",
-        "member_count": "Участник #",
-        "status_updated": "Вернул стандартный статус",
-        "status_custom_updated": "Изменил статус",
-        "bot_disabled": "Выключил бота :>",
-        "options_in_polls": "Дайте хотя-бы два варианта(через запятую).",
-        "type": "Используйте horizontal или vertical",
-        "no_rights": "Нет прав"
-    },
+        "ADMIN_ID": 728600636060467200,
+        "Prefix_to_AI": "Вопрос,",
+        "Use_Emded_to_AI": "True",
 
-    "bot_prints": {
-        "welcome_channel_not_found": "[ERROR] Welcome channel not found.",
-        "avatar_downloaded" : "Avatar sucessfully Downloaded:",
-        "avatar_download_error": "[ERROR] Image Couldn't be retrieved",
-        "avatar_deleting_error": "[ERROR] I can't delete",
-        "no_rights_print": "No rights",
-        "bot_login_print": "Login!",
-        "bot_disabled_print": "Disabled!"
-    },
+        "bot_responses": {
+            "welcome_message": "зашёл на сервер!",
+            "member_count": "Участник #",
+            "status_updated": "Вернул стандартный статус",
+            "status_custom_updated": "Изменил статус",
+            "bot_disabled": "Выключил бота :>",
+            "options_in_polls": "Дайте хотя-бы два варианта(через запятую).",
+            "type": "Используйте horizontal или vertical",
+            "no_rights": "Нет прав"
+        },
 
-    "commands_description": {
-        "status": "Поставить статус",
-        "stop": "Выключить бота",
-        "poll": "Голосование"
-    },
-    "default_status": "github.com/MXcode970/Mee6free",
-    "disabeld_status": "Выключен",
-    "welcome_channel_name": "приветствие",
+        "bot_prints": {
+            "welcome_channel_not_found": "[ERROR] Welcome channel not found.",
+            "avatar_downloaded" : "Avatar sucessfully Downloaded:",
+            "avatar_download_error": "[ERROR] Image Couldn't be retrieved",
+            "avatar_deleting_error": "[ERROR] I can't delete",
+            "no_rights_print": "No rights",
+            "bot_login_print": "Login!",
+            "bot_disabled_print": "Disabled!",
+            "new_AI": "A new AI request: "
+        },
 
-    "welcome_image_template": {
-        "background_image": "assets/861.jpg",
-        "font_path": "assets/NotoSans-Regular.ttf"
+        "commands_description": {
+            "status": "Поставить статус",
+            "stop": "Выключить бота",
+            "poll": "Голосование",
+        },
+        "default_status": "github.com/MXcode970/Mee6free",
+        "disabeld_status": "Выключен",
+        "welcome_channel_name": "приветствие",
+
+        "welcome_image_template": {
+            "background_image": "assets/black.jpg",
+            "font_path": "assets/NotoSans-Regular.ttf"
+        }
     }
-}
