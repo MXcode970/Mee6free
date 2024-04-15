@@ -1,13 +1,12 @@
 import discord
 from discord.ext import commands
-import g4f.Provider
 from welcome import create_welcome_image
+from AI import TTM, gbt
 import requests 
 import shutil
 import os
 import json
 import string
-import g4f
 
 
 with open('config.json', 'r', encoding='utf-8') as file:
@@ -16,18 +15,6 @@ with open('config.json', 'r', encoding='utf-8') as file:
 bot = commands.Bot(command_prefix='/',intents=discord.Intents.all() )
 disabled = False
 
-
-
-def gbt(prmt):
- 
-    response = g4f.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        provider=g4f.Provider.FlowGpt,
-        messages=[{"role": "user", "content": prmt}],
-        
-    )
-
-    return response
 
 
 
@@ -130,27 +117,62 @@ async def poll(interaction: discord.Interaction, options: str, type: str):
     embed = discord.Embed(title="Poll", description=description, color=0x00ff00)
     await interaction.response.send_message(embed=embed, ephemeral=False)
 
+@bot.tree.command(name='embed', description=config['commands_description']['embed'])
+async def poll(interaction: discord.Interaction, 
+               title: str, description: str, 
+               color: str, image_url: str = None, 
+               foooter: str = None,
+               thumbnail: str = None, onlyforme: bool = False):
+                                                            
+    
+    global disabled
+    if disabled:
+        return
+    
+    if config["ADMIN_ID"] != interaction.user.id and onlyforme == True:
+        await interaction.response.send_message(config["bot_responses"]["ephermal"], ephemeral=True)
+        return
+                
+
+    embed = discord.Embed(title=title, description=description, color=getattr(discord.Color, color)())
+    if image_url:
+        embed.set_image(url=image_url)
+    if foooter:
+        embed.set_footer(text=foooter)
+    if thumbnail:
+        embed.set_thumbnail(url=thumbnail)
+    
+
+    
+    if onlyforme == True:
+        await interaction.response.send_message(embed=embed, ephemeral=True)
+        return
+    
+    await interaction.response.send_message(embed=embed, ephemeral=False)
+
+
 
 @bot.event
 async def on_message(message):
     if message.author == bot.user:
         return
 
-    # Проверяем, является ли сообщение личным сообщением (DM)
-    if isinstance(message.channel, discord.DMChannel):
-        q = discord.Embed(description=f"Nope", color=0xFF4500)
-        await message.channel.send(embed=q)
 
     if message.content.startswith(config["Prefix_to_AI"]):
-
+        
+        if isinstance(message.channel, discord.DMChannel):
+            q = discord.Embed(description=config["bot_responses"]["no_rights"], color=0xFF4500)
+            await message.channel.send(embed=q)
+            return
         
         text_after_prefix = message.content[len(config["Prefix_to_AI"]):].strip()
         print(config["bot_prints"]["new_AI"], text_after_prefix)
+
         if config["Use_Emded_to_AI"] == "True":
             embed = discord.Embed(title=f'** Вопрос: {text_after_prefix}**', description=gbt(text_after_prefix), color=0x40E0D0)
             await message.channel.send(embed=embed)
         else:
-            await message.channel.send(gbt(text_after_prefix))
+            await message.channel.send(text_after_prefix)
 
 
 
@@ -166,7 +188,6 @@ async def on_ready():
     print(config["bot_prints"]["bot_login_print"])
     await bot.tree.sync()
     await bot.change_presence(activity=discord.CustomActivity(name=config["default_status"]))
-
 
 
 client.run('')
