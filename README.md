@@ -2,4 +2,10 @@
 MEE6 free
 
 
-A mee6 clone bot.
+
+Has these mee6 chips, but for free:
+
+AI
+Polls
+Emdeds
+Welcome images
