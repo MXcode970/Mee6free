@@ -1,7 +1,8 @@
-{
+    {
         "ADMIN_ID": 728600636060467200,
         "Prefix_to_AI": "Вопрос,",
         "Use_Emded_to_AI": "True",
+        "Prefix_paint_to_AI": "Нарисуй,",
 
         "bot_responses": {
             "welcome_message": "зашёл на сервер!",
@@ -11,7 +12,8 @@
             "bot_disabled": "Выключил бота :>",
             "options_in_polls": "Дайте хотя-бы два варианта(через запятую).",
             "type": "Используйте horizontal или vertical",
-            "no_rights": "Нет прав"
+            "no_rights": "Нет прав",
+            "ephermal": "У вас не прав на onlyforme True"
         },
 
         "bot_prints": {
@@ -29,6 +31,7 @@
             "status": "Поставить статус",
             "stop": "Выключить бота",
             "poll": "Голосование",
+            "embed": "Редактор embed cообщений"
         },
         "default_status": "github.com/MXcode970/Mee6free",
         "disabeld_status": "Выключен",
